@@ -1,0 +1,23 @@
+{
+  "name": "sheets_sync_trello",
+  "description": "Setting up this repo:",
+  "version": "1.0.0",
+  "main": "built\\code.js",
+  "dependencies": {
+    "@types/google-apps-script": "0.0.22",
+    "@types/underscore": "^1.8.8",
+    "install": "^0.11.0",
+    "jslint": "^0.12.0",
+    "npm": "^6.0.1",
+    "tslint": "^5.10.0",
+    "tslint-clean-code": "^0.2.7",
+    "typescript": "^2.8.3",
+    "underscore": "^1.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kristof Riebbels",
+  "license": "ISC"
+}
