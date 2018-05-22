@@ -29,8 +29,9 @@
   },
   "scripts": {
     "build": "webpack --mode development",
+    "publish": "webpack --mode development && clasp push",
     "watch": "webpack --mode development --watch",
-    "install": "clasp push"
+    "install": "webpack --mode development && clasp push"
   },
   "author": "Kristof Riebbels",
   "license": "ISC"

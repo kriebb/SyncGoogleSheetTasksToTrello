@@ -22,7 +22,7 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
   output: {
-    filename: '[name].js',
+    filename: 'Code.js',
     path: path.resolve(__dirname, 'built')
   },
   plugins: [
@@ -30,7 +30,8 @@ module.exports = {
     new es3ifyPlugin(),
     new CopyWebpackPlugin([
       { from: './node_modules/underscore/underscore.js', to: path.resolve(__dirname, 'built'), force:true},
-    ], {})
+      { from: './src/dependencies/appsscript.json', to: path.resolve(__dirname, 'built'), force:true},
+    ], {}),
   ]
 
 };
