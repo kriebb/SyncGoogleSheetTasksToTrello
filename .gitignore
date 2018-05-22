@@ -1,2 +1,3 @@
-/built/*.js
+/built/**/*
 /node_modules
+.vscode
