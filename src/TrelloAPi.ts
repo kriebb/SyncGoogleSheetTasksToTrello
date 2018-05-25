@@ -3,11 +3,14 @@ import { UriBuilder } from "./UriBuilder";
 import { UnderscoreStatic } from "underscore";
 
 export class TrelloApi {
+	AddOrUpdate(arg0: any): number {
+		throw new Error("Method not implemented.");
+	}
 	constructor(private propertiesApi: PropertiesApi, private trelloUriBuilder: UriBuilder,private _:UnderscoreStatic) {}
 
 	// https://sites.google.com/site/scriptsexamples/custom-methods/underscoregs
 
-	public getBoardByName(name: string): Domain.Board | null {
+	public getBoardByName(name: string): Trello.Board | null {
 		let boardId: string | null = "";
 		if (this.propertiesApi.exists("boardId")) {
 			boardId = this.propertiesApi.get("boardId");
@@ -19,11 +22,11 @@ export class TrelloApi {
 			boardId = boardItem.id;
 		}
 
-    var board:Domain.Board|null = this.getBoardById(boardId);
+    var board:Trello.Board|null = this.getBoardById(boardId);
     return board;
   }
 
-  public getBoardById(boardId: string | null): Domain.Board|null {
+  public getBoardById(boardId: string | null): Trello.Board|null {
 		return null;
 	}
 
@@ -38,9 +41,9 @@ export class TrelloApi {
 		return null;
 	}
 
-	public getListsByBoardId(boardId:string): Domain.ListOnBoard[] {
+	public getListsByBoardId(boardId:string): Trello.ListOnBoard[] {
 
-    return new Array<Domain.ListOnBoard>();
+    return new Array<Trello.ListOnBoard>();
 
   }
 
@@ -76,7 +79,12 @@ export module VM {
 
 }
 
-export module Domain {
+export module Trello {
+	export class Card {
+		TaskOnSheetId: any;
+		TaskBoardId: any;
+		TaskListId: any;
+	}
   export class Board {
     id:string;
   }

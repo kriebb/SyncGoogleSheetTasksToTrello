@@ -2,6 +2,7 @@ import { UnderscoreStatic } from "underscore";
 
 export class PropertiesApi {
 
+	public SHEET_PROPERTIES_TASK_NAME: string;
   public OAUTH_1_SECRET: string;
   public USR_AUTH_TOKEN: string;
   public DEV_API_KEY: string;
@@ -22,6 +23,10 @@ export class PropertiesApi {
     let trelloBoard:string|null = this.get("TRELLO_TASK_BOARD_NAME");
     if(trelloBoard == null) { throw "Could not find TRELLO_TASK_BOARD_NAME"; }
     this.TRELLO_TASK_BOARD_NAME = trelloBoard;
+
+    let sheetPropertiesTaskName:string|null = this.get("SHEET_PROPERTIES_TASK_NAME");
+    if(sheetPropertiesTaskName == null) { throw "Could not find SHEET_PROPERTIES_TASK_NAME"; }
+    this.SHEET_PROPERTIES_TASK_NAME = sheetPropertiesTaskName;
   }
 
   public exists(propertyId:string):boolean {
