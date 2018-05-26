@@ -41,9 +41,10 @@ export class EntryPoint {
 			trelloCard.TaskBoardId = taskBoard.Id;
 			trelloCard.TaskListId = backlogListOnBoard.Id;
 
-			var trelloCardId:number = trelloApi.AddOrUpdate(trelloCard);
+			var updatedTrelloCard:Trello.Card = trelloApi.AddOrUpdate(trelloCard);
 
-			taskOnSheet.TrelloCardId = trelloCardId;
+			taskOnSheet.TrelloCardId = updatedTrelloCard.TrelloCardId;
+
 			googleSheetApi.AddOrUpdateTask(taskOnSheet);
 		});
 

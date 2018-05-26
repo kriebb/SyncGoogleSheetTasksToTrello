@@ -3,9 +3,6 @@ import { UriBuilder } from "./UriBuilder";
 import { UnderscoreStatic } from "underscore";
 
 export class TrelloApi {
-	AddOrUpdate(arg0: any): number {
-		throw new Error("Method not implemented.");
-	}
 	constructor(private propertiesApi: PropertiesApi, private trelloUriBuilder: UriBuilder,private _:UnderscoreStatic) {}
 
 	// https://sites.google.com/site/scriptsexamples/custom-methods/underscoregs
@@ -27,7 +24,10 @@ export class TrelloApi {
   }
 
   public getBoardById(boardId: string | null): Trello.Board|null {
-		return null;
+		throw new Error("Method not implemented.");
+	}
+	public ddOrUpdate(trellOCard: Trello.Card): Trello.Card {
+		throw new Error("Method not implemented.");
 	}
 
 	public searchBoardByName(name: string): VM.BoardItem|null {
@@ -43,7 +43,7 @@ export class TrelloApi {
 
 	public getListsByBoardId(boardId:string): Trello.ListOnBoard[] {
 
-    return new Array<Trello.ListOnBoard>();
+		throw new Error("Method not implemented.");
 
   }
 
@@ -86,9 +86,11 @@ export module Trello {
 		TaskListId: any;
 	}
   export class Board {
+	  Id: any;
     id:string;
   }
   export class ListOnBoard {
+	  Id: any;
 id:string;
 }
 }
