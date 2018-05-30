@@ -2,11 +2,30 @@ import { UnderscoreStatic } from "underscore";
 
 export class PropertiesApi {
 
-	public SHEET_PROPERTIES_TASK_NAME: string;
+
   public OAUTH_1_SECRET: string;
   public USR_AUTH_TOKEN: string;
   public DEV_API_KEY: string;
-  public TRELLO_TASK_BOARD_NAME:string;
+
+	public GENERATED_TASK_NOTATION_A1:string = "A2:H1000";
+	public SETTING_TASK_REPITITION_NOTATION_A1: string = "A2:B6";
+	public GTASK_TEMPLATE_COLNR_ID: number= 7;
+	public GTASK_TEMPLATE_COLNR_DESCRIPTION: number = 5;
+	public GTASK_TEMPLATE_COLNR_DUEDATE: number = 4;
+	public GTASK_TEMPLATE_COLNR_TASKNAME: number = 2;
+	public TEMPLATE_TASK_NOTATION_A1: string ="A4:H1000";
+
+	public SETTINGS_SHEET: string = "SettingsSheet";
+  public SHEET_WITH_TASKS: string = "GegenereerdeTaken";
+
+  public SHEET_WITH_TEMPLATE_TASKS:string = "TemplateTaken";
+
+  public TRELLO_TASK_BOARD_NAME:string = "Taken Huishouden";
+  public TRELLO_BACKLOG_LIST:string = "BackLog";
+
+  public TRELLO_TASKLIST_KRISTOF:string="Kristof";
+  public TRELLO_TASKLIST_SAARTJE:string="Saartje";
+
   constructor(private _:UnderscoreStatic) {
     let apiKey:string|null = this.get("DEV_API_KEY");
     if(apiKey == null) { throw "Could not find DEV_API_KEY"; }
@@ -24,9 +43,6 @@ export class PropertiesApi {
     if(trelloBoard == null) { throw "Could not find TRELLO_TASK_BOARD_NAME"; }
     this.TRELLO_TASK_BOARD_NAME = trelloBoard;
 
-    let sheetPropertiesTaskName:string|null = this.get("SHEET_PROPERTIES_TASK_NAME");
-    if(sheetPropertiesTaskName == null) { throw "Could not find SHEET_PROPERTIES_TASK_NAME"; }
-    this.SHEET_PROPERTIES_TASK_NAME = sheetPropertiesTaskName;
   }
 
   public exists(propertyId:string):boolean {
