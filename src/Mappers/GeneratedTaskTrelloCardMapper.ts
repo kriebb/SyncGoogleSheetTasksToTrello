@@ -1,25 +1,21 @@
-import { Trello as TrelloDomain } from "../Trello/Domain";
-import { MySpreadSheet as MyAppDomain } from "../MySpreadSheet/Domain";
+import * as Trello from "../Trello/index";
+import * as MyApp from "../MySpreadSheet/index";
 
-export module Mappers {
+export class GeneratedTaskTrelloCardMap {
+	public map(tasksOnSheet: MyApp.GeneratedTask[]): Trello.Card[] {
+		var cards: Trello.Card[] = new Array<Trello.Card>();
+		tasksOnSheet.forEach((taskOnSheet: MyApp.GeneratedTask) => {
+			var trelloCard: Trello.Card = new Trello.Card();
+			trelloCard.TaskOnSheetId = taskOnSheet.Id;
+			trelloCard.TaskBoardId = taskOnSheet.TaskBoardId;
+			trelloCard.TaskListId = taskOnSheet.BacklogListOnBoard.Id;
+			trelloCard.TaskName = taskOnSheet.TaskName;
+			trelloCard.Description = taskOnSheet.Description;
+			trelloCard.DueDate = taskOnSheet.DueDate;
+			trelloCard.Position = taskOnSheet.TrelloCardPosition;
 
-    export class GeneratedTaskTrelloCardMap {
-
-		public map(tasksOnSheet: MyAppDomain.GeneratedTask[]): TrelloDomain.Card[] {
-			var cards: TrelloDomain.Card[] = new Array<TrelloDomain.Card>();
-			tasksOnSheet.forEach((taskOnSheet: MyAppDomain.GeneratedTask) => {
-				var trelloCard: TrelloDomain.Card = new TrelloDomain.Card();
-				trelloCard.TaskOnSheetId = taskOnSheet.Id;
-				trelloCard.TaskBoardId = taskOnSheet.TaskBoardId;
-				trelloCard.TaskListId = taskOnSheet.BacklogListOnBoard.Id;
-				trelloCard.TaskName = taskOnSheet.TaskName;
-				trelloCard.Description = taskOnSheet.Description;
-				trelloCard.DueDate = taskOnSheet.DueDate;
-				trelloCard.Position = taskOnSheet.TrelloCardPosition;
-
-				cards.push(trelloCard);
-			});
-			return cards;
-		}
+			cards.push(trelloCard);
+		});
+		return cards;
 	}
 }

@@ -18,7 +18,7 @@ export class PropertiesApi {
 	public SETTINGS_SHEET: string = "SettingsSheet";
   public SHEET_WITH_TASKS: string = "GegenereerdeTaken";
 
-  public SHEET_WITH_TEMPLATE_TASKS:string = "TemplateTaken";
+  public SHEET_WITH_TEMPLATE_TASKS_NAME:string = "TemplateTaken";
 
   public TRELLO_TASK_BOARD_NAME:string = "Taken Huishouden";
   public TRELLO_BACKLOG_LIST:string = "BackLog";

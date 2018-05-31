@@ -1,4 +1,3 @@
-export namespace MySpreadSheet {
 	/*
  * Dagelijks (MA-ZO)	1/1-*
 Wekelijks (ZA-ZO)	1/7,14,21,28
@@ -27,4 +26,3 @@ TweeMaandelijks	2/1
         DueDate: any;
         TrelloCardPosition: any;
     }
-}

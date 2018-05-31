@@ -1,54 +1,54 @@
 import { UnderscoreStatic } from "underscore";
 import { PropertiesApi } from "./Settings/PropertiesApi";
 import { UriBuilder } from "./Common/UriBuilder";
-import { Trello as TrelloService } from "./Trello/Api";
-import { Trello as TrelloDomain } from "./Trello/Domain";
+import * as Trello from "./Trello/index";
+import * as MyApp from "./MySpreadSheet/index";
 import { IdGenerator } from "./Common/IdGenerator";
-import { MySpreadSheet as MyAppApi } from "./MySpreadSheet/Api";
-import { MySpreadSheet as MyAppTask } from "./MySpreadSheet/TaskFactory";
-import { MySpreadSheet as MyAppDomain } from "./MySpreadSheet/Domain";
-import { Mappers } from "./Mappers/GeneratedTaskTrelloCardMapper";
+import * as Mappers from "./Mappers/index";
 declare var _: UnderscoreStatic;
 
 export class EntryPoint {
-	public Start = () => {
+	public Start(): void {
 		var underscoreService: UnderscoreStatic = _;
 		var propertiesApi: PropertiesApi = new PropertiesApi(underscoreService); // inject underscore
 		var uriBuilder: UriBuilder = new UriBuilder(propertiesApi);
-		var trelloApi: TrelloService.Api = new TrelloService.Api(propertiesApi, uriBuilder, underscoreService);
-		var possibleTaskBoard: TrelloDomain.Board | null = trelloApi.getBoardByName(propertiesApi.TRELLO_TASK_BOARD_NAME);
-		var googleSheetApi: MyAppApi.Api = new MyAppApi.Api(propertiesApi);
+		var trelloApi: Trello.Api = new Trello.Api(propertiesApi, uriBuilder, underscoreService);
+		var possibleTaskBoard: Trello.Board | null = trelloApi.getBoardByName(
+			propertiesApi.TRELLO_TASK_BOARD_NAME
+		);
+		var googleSheetApi: MyApp.Api = new MyApp.Api(propertiesApi);
 		var idGenerator: IdGenerator = new IdGenerator();
-		var taskFactory: MyAppTask.TaskFactory = new MyAppTask.TaskFactory(idGenerator);
+		var taskFactory: MyApp.TaskFactory = new MyApp.TaskFactory(idGenerator);
 		var generatedTaskTrelloCardMapper: Mappers.GeneratedTaskTrelloCardMap = new Mappers.GeneratedTaskTrelloCardMap();
 
 		if (possibleTaskBoard == null) {
 			throw "could not retrieve taskboard:" + propertiesApi.TRELLO_TASK_BOARD_NAME;
 		}
 
-		var taskBoard: TrelloDomain.Board = possibleTaskBoard;
-		var listsOfTaskBoard: TrelloDomain.ListOnBoard[] = trelloApi.getListsByBoardId(taskBoard.id);
+		var taskBoard: Trello.Board = possibleTaskBoard;
+		var listsOfTaskBoard: Trello.ListOnBoard[] = trelloApi.getListsByBoardId(taskBoard.id);
 
 		var possibleBackLog:
-			| TrelloDomain.ListOnBoard
-			| undefined = listsOfTaskBoard.find(
-			(value: TrelloDomain.ListOnBoard, index: number, array: TrelloDomain.ListOnBoard[]) => {
+			| Trello.ListOnBoard
+			| undefined = listsOfTaskBoard.find((value: Trello.ListOnBoard) => {
+			if (value.Name === propertiesApi.SHEET_WITH_TEMPLATE_TASKS_NAME) {
 				return true;
 			}
-		);
+			return false;
+		});
 		if (possibleBackLog === undefined) {
 			throw "Couldn't find the backlog. Define one";
 		}
 
-		var backlogListOnBoard: TrelloDomain.ListOnBoard = possibleBackLog;
-		var templateTasksOnSheet: MyAppDomain.TemplateTask[] = googleSheetApi.getTemplateTasksOnSheet(
-			propertiesApi.SHEET_WITH_TEMPLATE_TASKS
+		var backlogListOnBoard: Trello.ListOnBoard = possibleBackLog;
+		var templateTasksOnSheet: MyApp.TemplateTask[] = googleSheetApi.getTemplateTasksOnSheet(
+			propertiesApi.SHEET_WITH_TEMPLATE_TASKS_NAME
 		);
 
-		var tasksOnSheet: MyAppDomain.GeneratedTask[] = taskFactory.createMany(templateTasksOnSheet);
-		googleSheetApi.addOrUpdate(propertiesApi.SHEET_WITH_TEMPLATE_TASKS, tasksOnSheet);
+		var tasksOnSheet: MyApp.GeneratedTask[] = taskFactory.createMany(templateTasksOnSheet);
+		googleSheetApi.addOrUpdate(propertiesApi.SHEET_WITH_TEMPLATE_TASKS_NAME, tasksOnSheet);
 
-		var trelloCards:TrelloDomain.Card[] = generatedTaskTrelloCardMapper.map(tasksOnSheet);
+		var trelloCards: Trello.Card[] = generatedTaskTrelloCardMapper.map(tasksOnSheet);
 
 		trelloApi.addOrUpdate(trelloCards);
 	}
